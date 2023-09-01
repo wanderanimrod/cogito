@@ -150,6 +150,16 @@ func TestSourceValidationFailure(t *testing.T) {
 			},
 			wantErr: "source: github_api_endpoint john.smith.cim is an invalid api endpoint",
 		},
+		{
+			name: "invalid fragments in git source github_api_endpoint",
+			source: cogito.Source{
+				Owner:        		"the-owner",
+				Repo:         		"the-repo",
+				AccessToken:  		"the-token",
+				GithubApiEndpoint: 	"https://example.com/#x/y%2Fz",
+			},
+			wantErr: "source: github_api_endpoint https://example.com/#x/y%2Fz cannot have any fragments",
+		},
 	}
 
 	for _, tc := range testCases {

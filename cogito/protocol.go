@@ -266,7 +266,11 @@ func (src *Source) Validate() error {
 		if u.Scheme != "https" { //catch http prefix that falls through
 			return fmt.Errorf("source: github_api_endpoint %s must have a https prefix, not http", src.GithubApiEndpoint)
 		}
-	}	
+		u, _ = url.Parse(src.GithubApiEndpoint)
+		if u.Fragment != "" {
+			return fmt.Errorf("source: github_api_endpoint %s cannot have any fragments", src.GithubApiEndpoint)
+		}
+	}
  
 	fmt.Println("All ok")
 	
